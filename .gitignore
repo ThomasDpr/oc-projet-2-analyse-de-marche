@@ -1,1 +1,11 @@
+.DS_Store
 .venv
+.vscode
+data/
+datas/
+
+# Ignore the scrapper/logs folder
+scraper/logs/
+
+# Ignore the scrapper/books_data folder
+scraper/books_data/
