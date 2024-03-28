@@ -151,9 +151,30 @@ class BookScraper:
             return data_dict
         return 'Soup not set'
 
+    def download_image(self, image_url, save_path):
+        """
+        Télécharge l'image depuis l'URL spécifiée et la sauvegarde dans le chemin spécifié.
+
+        Args:
+            image_url (str): URL de l'image à télécharger.
+            save_path (str): Chemin de fichier local où l'image sera sauvegardée.
+        """
+        try:
+            response = requests.get(image_url)
+            response.raise_for_status()
+            with open(save_path, 'wb') as image_file:
+                image_file.write(response.content)
+            print(f"Image saved to {save_path}")
+        except requests.RequestException as e:
+            print(f"Failed to download image: {e}")
+
+
     # Méthode pour initier le scraping d'un livre
     def scrape_and_save_books(self, urls, category_name):
         books_data = []
+        
+        image_folder = 'images'
+        os.makedirs(image_folder, exist_ok=True)
 
         for url in urls:
             self.get_soup(url)
@@ -174,8 +195,15 @@ class BookScraper:
             }
             # On applique la normalisation
             self.normalize_data(book_data)
+            
+            image_filename = f"{book_data['title'].replace(' ', '_').replace('/', '_')}.jpg"
+            image_path = os.path.join(image_folder, image_filename)
+            
+            self.download_image(book_data['image_url'], image_path)
+            
             # On ajoute les données du livre à la liste
             books_data.append(book_data)
+            
 
         if books_data:
             if not os.path.exists('datas'):
