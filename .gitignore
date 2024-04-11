@@ -11,3 +11,4 @@ scraper/logs/
 scraper/books_data/
 
 images/
+__pycache__/
