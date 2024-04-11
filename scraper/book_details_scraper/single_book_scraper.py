@@ -24,12 +24,16 @@ def scrape_book_data(url):
     
     Logs errors to 'books_scraper_logs.log' if the GET request or HTML parsing fails or if any of the required data is not found/missing on the page.
     """
+    
+    print(f'Starting to scrape book data from {url}')
+
     try:
         # Send a GET request
         response = requests.get(url)
         response.raise_for_status()
     except RequestException as e:
         logging.error(f'Error sending GET request: {e}')
+        print(f'Failed to get response for {url}')
         return None
     
     try:
@@ -37,6 +41,7 @@ def scrape_book_data(url):
         soup = bs(response.content, 'html.parser')
     except Exception as e:
         logging.error(f'Error parsing the HTML content: {e}')
+        print(f'Failed to parse the HTML content for {url}')
         return None
     
     # Extract the book data
@@ -85,6 +90,7 @@ def scrape_book_data(url):
     number_available = int(book_data['Availability'].replace('In stock (', '').replace(' available)', ''))
     universal_product_code = book_data['UPC']
     
+    print(f'Successfully scraped data for {title}')
     
     # Return the book data
     return {
@@ -103,9 +109,13 @@ def scrape_book_data(url):
 if __name__ == '__main__':
     product_url = 'https://books.toscrape.com/catalogue/ready-player-one_209/index.html'
 
+    print('Starting the book scraping process...')
     book_data = scrape_book_data(product_url)
     
     if book_data:
+        
+        print(f'Book data for "{book_data["title"]}" retrieved successfully.')
+        
         # Convert the book data to a DataFrame 
         df = pd.DataFrame([book_data])
         
