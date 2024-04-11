@@ -3,13 +3,13 @@ import requests
 from bs4 import BeautifulSoup as bs
 import sys
 import os
-# --- to confirm --- #
+# --- source : https://stackoverflow.com/questions/21005822/what-does-os-path-abspathos-path-joinos-path-dirname-file-os-path-pardir --- #
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
 from scraper.book_details_scraper.single_book_scraper import scrape_book_data
-# --- to confirm --- #
+
 
 def get_book_urls_from_page(category_url, book_urls=[]):
+    print(f'Starting to scrape category page: {category_url}')
     response = requests.get(category_url)
     soup = bs(response.content, 'html.parser')
 
@@ -30,6 +30,8 @@ def get_book_urls_from_page(category_url, book_urls=[]):
 if __name__ == '__main__':
     category_url = 'https://books.toscrape.com/catalogue/category/books/mystery_3/index.html'
     book_urls = get_book_urls_from_page(category_url)
+    print(f'Book URLs for {category_url.split("/")[-2]}: {book_urls}')
+    print(f'Total books found in the category: {len(book_urls)}')
     
     books_data = []
     for url in book_urls:
@@ -47,4 +49,4 @@ if __name__ == '__main__':
     csv_file_name = f'{cleaned_title}_data_{timestamp}.csv'        
     csv_path = os.path.join(save_dir, csv_file_name)
     df.to_csv(csv_path, index=False, encoding='utf-8')
-    print('Data for all books in the category has been saved to category_books_data.csv')
+    print(f'Data for all books in the category has been saved to {csv_path} - Total books saved: {len(books_data)}')
