@@ -1,4 +1,4 @@
-# UTILISEZ LEES BASES DE PYTHON POUR REALISER UNE ANALYSE DE MARCHE
+# UTILISEZ LES BASES DE PYTHON POUR REALISER UNE ANALYSE DE MARCHE
 
 Ce projet consiste à utiliser les bases de Python pour réaliser une analyse de marché. Il s'agit d'explorer et d'analyser des données de marché afin de tirer des insights et des conclusions utiles. Le code développé dans ce projet permettra de manipuler les données, de les visualiser et d'effectuer des calculs statistiques pour mieux comprendre le marché.
 
